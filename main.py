@@ -16,4 +16,5 @@ if __name__ == '__main__':
 
 print("this is the test")
 print("test")
+print("test2")
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
