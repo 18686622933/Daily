@@ -3,8 +3,8 @@
 
 import os
 
-log_path = "E:\\app\\Administrator\\diag\\tnslsnr\\DATABASE\\listener\\trace\\listener.log"
-size = 3800
+log_path = "E:\\app\\Administrator\\diag\\tnslsnr\\DATABASE\\listener\\trace\\listener.log"  # 文件地址
+size = 3800  # 文件最大值
 
 
 class DBlogSizeMonitoring:
@@ -13,6 +13,7 @@ class DBlogSizeMonitoring:
         self.size = size
 
     def getSize(self):
+        """获取文件大小"""
         try:
             file_stats = os.stat(self.log_path)
 
@@ -27,6 +28,7 @@ class DBlogSizeMonitoring:
             return False
 
     def reName(self):
+        """重命名，在文件名后加下划线"""
         newName = self.log_path + '_'
         os.rename(self.log_path, newName)
 
