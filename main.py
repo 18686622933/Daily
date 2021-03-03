@@ -13,7 +13,21 @@ def print_hi(name):
 if __name__ == '__main__':
     print_hi('PyCharm')
 
+import os
 
-print("this is the test")
-print("test")
+file_name = "E:\\迅雷下载\\Git-2.30.1-64-bit.exe"
+
+file_stats = os.stat(file_name)
+
+# print(file_stats)
+size = file_stats.st_size/1024/1024
+size =round(size,2)
+print(f'File Size in Bytes is {size}')
+
+oldname = file_name
+newname = oldname + '_'
+os.rename(oldname, newname)
+
+# os.rename(oldname,newname)
+
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
