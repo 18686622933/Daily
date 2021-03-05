@@ -1,48 +1,48 @@
-#!/usr/bin/env python3
-# -*- coding:utf-8 -*-
-
 import os
 
-log_path = "E:\\app\\Administrator\\diag\\tnslsnr\\DATABASE\\listener\\trace\\listener.log"  # 文件地址
-size = 3800  # 文件最大值
+log_paths = ["E:\\app\\Administrator\\diag\\tnslsnr\\DATABASE\\listener\\trace\\listener.log",
+             "E:\\app\\Administrator\\diag\\rdbms\\ucit\\ucit\\trace\\alert_ucit.log"]
+
+# log_paths = ["C:\\Users\\duomeiti\\Downloads\\python-3.9.2-amd64.exe", "C:\\Users\\duomeiti\\Downloads\\my-new-years-aspirations.pptx"]
+
+
+size = 3800
 
 
 class DBlogSizeMonitoring:
-    def __init__(self, log_path, size):
-        self.log_path = log_path
+    def __init__(self, log_paths, size):
+        self.log_paths = log_paths
         self.size = size
 
-    def getSize(self):
-        """获取文件大小"""
+    def getSize(self, log_path):
         try:
-            file_stats = os.stat(self.log_path)
+            file_stats = os.stat(log_path)
 
             # print(file_stats)
             size = file_stats.st_size / 1024 / 1024
             size = round(size, 2)
-            print("%s文件大小为：%s m" % (self.log_path, size))
+            print("《%s》 文件大小为：%s m" % (log_path, size))
             return size
 
         except FileNotFoundError:
-            print("no files found")
+            print("《%s》 文件未找到" % log_path)
             return False
 
-    def reName(self):
-        """重命名，在文件名后加下划线"""
-        newName = self.log_path + '_'
-        os.rename(self.log_path, newName)
+    def reName(self, log_path):
+        newName = log_path + '_'
+        os.rename(log_path, newName)
 
     def main(self):
-        fileSize = self.getSize()
-        if fileSize:
-            if fileSize >= self.size:
-                self.reName()
-                print("Oracle log file is full and rename completed.")
-            else:
-                print("Oracle log file is not full yet.")
+        for i in self.log_paths:
+            fileSize = self.getSize(i)
+            if fileSize:
+                if fileSize >= self.size:
+                    self.reName(i)
+                    print("File is full and rename completed.")
+                else:
+                    print("File is not full yet.")
 
 
 if __name__ == '__main__':
-    DBL = DBlogSizeMonitoring(log_path, size)
+    DBL = DBlogSizeMonitoring(log_paths, size)
     DBL.main()
-
